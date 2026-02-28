@@ -1,0 +1,44 @@
+{
+  "diagnostics": [
+    {
+      "message": "Error level issue",
+      "code": "eslint(no-debugger)",
+      "severity": "error",
+      "causes": [],
+      "filename": "src/a.ts",
+      "labels": [
+        {
+          "span": {
+            "offset": 0,
+            "length": 9,
+            "line": 1,
+            "column": 1
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "Warning level issue",
+      "code": "eslint(no-console)",
+      "severity": "warning",
+      "causes": [],
+      "filename": "src/b.ts",
+      "labels": [
+        {
+          "span": {
+            "offset": 10,
+            "length": 17,
+            "line": 2,
+            "column": 3
+          }
+        }
+      ],
+      "related": []
+    }
+  ],
+  "number_of_files": 2,
+  "number_of_rules": 5,
+  "threads_count": 1,
+  "start_time": 0.001
+}

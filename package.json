@@ -1,0 +1,71 @@
+{
+  "name": "oxlint-json-to-sarif",
+  "version": "0.1.0",
+  "description": "Convert oxlint JSON output to SARIF",
+  "keywords": [
+    "converter",
+    "lint",
+    "oxlint",
+    "oxc",
+    "sarif",
+    "static-analysis"
+  ],
+  "license": "MIT",
+  "author": "TonyRL",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TonyRL/oxlint-json-to-sarif.git"
+  },
+  "bin": {
+    "oxlint-json-to-sarif": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --type-aware --fix",
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "commander": "^14.0.3",
+    "node-sarif-builder": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "@types/sarif": "^2.1.7",
+    "@vitest/coverage-v8": "^4.0.18",
+    "oxfmt": "^0.35.0",
+    "oxlint": "^1.50.0",
+    "oxlint-tsgolint": "^0.15.0",
+    "tsdown": "^0.20.3",
+    "typescript": "^5.7.3",
+    "vitest": "^4.0.18"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.30.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

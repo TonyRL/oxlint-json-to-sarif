@@ -1,0 +1,106 @@
+{
+  "diagnostics": [
+    {
+      "message": "`debugger` statement is not allowed",
+      "code": "eslint(no-debugger)",
+      "severity": "error",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-debugger.html",
+      "help": "Remove the debugger statement",
+      "filename": "/home/user/project/src/main.js",
+      "labels": [
+        {
+          "span": {
+            "offset": 38,
+            "length": 9,
+            "line": 5,
+            "column": 1
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "Unexpected console statement",
+      "code": "eslint(no-console)",
+      "severity": "warning",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-console.html",
+      "help": "Remove the console statement",
+      "filename": "/home/user/project/src/main.js",
+      "labels": [
+        {
+          "span": {
+            "offset": 120,
+            "length": 17,
+            "line": 10,
+            "column": 3
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "Unexpected var, use let or const instead",
+      "code": "eslint(no-var)",
+      "severity": "warning",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/eslint/no-var.html",
+      "help": "Use `let` or `const` instead",
+      "filename": "/home/user/project/src/utils.ts",
+      "labels": [
+        {
+          "span": {
+            "offset": 0,
+            "length": 14,
+            "line": 1,
+            "column": 1
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "Missing return type on function",
+      "code": "typescript(explicit-function-return-type)",
+      "severity": "warning",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/explicit-function-return-type.html",
+      "filename": "/home/user/project/src/utils.ts",
+      "labels": [
+        {
+          "span": {
+            "offset": 50,
+            "length": 20,
+            "line": 3,
+            "column": 1
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "Array.from() is faster",
+      "code": "unicorn(prefer-array-from)",
+      "severity": "error",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/unicorn/prefer-array-from.html",
+      "filename": "/home/user/project/src/config.ts",
+      "labels": [
+        {
+          "span": {
+            "offset": 200,
+            "length": 15,
+            "line": 12,
+            "column": 5
+          }
+        }
+      ],
+      "related": []
+    }
+  ],
+  "number_of_files": 3,
+  "number_of_rules": 50,
+  "threads_count": 4,
+  "start_time": 0.005
+}
