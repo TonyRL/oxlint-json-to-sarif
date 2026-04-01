@@ -5,7 +5,7 @@ import { program } from 'commander';
 
 import { convertOxlintToSarif } from './index.js';
 
-const cliVersion = '0.1.0';
+const cliVersion = '0.2.0';
 
 async function readStdin(): Promise<string> {
   return new Promise((resolve, reject) => {

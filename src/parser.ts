@@ -4,12 +4,13 @@ import type { OxlintDiagnostic, OxlintLabel, OxlintReport, OxlintSeverity } from
  * Parses a raw label object into a typed OxlintLabel.
  */
 function parseLabel(l: Record<string, unknown>): OxlintLabel {
+  const span = (l.span ?? {}) as Record<string, unknown>;
   const parsedLabel: OxlintLabel = {
     span: {
-      offset: Number(l.span?.offset ?? 0),
-      length: Number(l.span?.length ?? 0),
-      line: Number(l.span?.line ?? 1),
-      column: Number(l.span?.column ?? 1),
+      offset: Number(span.offset ?? 0),
+      length: Number(span.length ?? 0),
+      line: Number(span.line ?? 1),
+      column: Number(span.column ?? 1),
     },
   };
   if (typeof l.label === 'string') {
@@ -81,6 +82,13 @@ export function parseOxlintJson(jsonContent: string): OxlintReport {
   const trimmedContent = jsonContent.trim();
   if (trimmedContent === '') {
     throw new Error('Input JSON content is empty');
+  }
+
+  if (trimmedContent.startsWith('Failed to parse oxlint configuration file')) {
+    throw new Error(
+      'The input does not appear to be oxlint JSON output. It looks like oxlint encountered a configuration error. ' +
+        'Please fix the oxlint configuration and re-run with `--format json`.',
+    );
   }
 
   let parsed: unknown;
