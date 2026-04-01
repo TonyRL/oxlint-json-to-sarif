@@ -46,6 +46,39 @@ const sarif = convertOxlintToSarif(json);
 await writeFile('results.sarif', sarif, 'utf-8');
 ```
 
+## Rationale
+
+<details>
+<summary>Click to expand</summary>
+
+### Problem
+
+GitHub Actions can surface lint results as annotations in the **Files changed** tab of a pull request:
+
+![Annotations in the Files changed tab](https://user-images.githubusercontent.com/3151613/135507581-3ae633bd-f761-40a6-9c22-bdd9e5c50736.png)
+
+However, these annotations only appear in the **Files changed** tab. Contributors who are new to GitHub are often unfamiliar with this interface and may not notice the annotations until a project maintainer points them out, extending the review cycle of a pull request.
+
+### Solution
+
+SARIF scan results, on the other hand, are shown directly on the **Conversation** tab — the default view when opening a pull request. This means contributors can see lint results immediately and fix them right away, without needing a reminder from maintainers.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/image/scan-dark.webp">
+  <source media="(prefers-color-scheme: light)" srcset=".github/image/scan.webp">
+  <img alt="SARIF scan results on the Conversation tab" src=".github/image/scan.webp">
+</picture>
+
+Once the lint issues are fixed, the annotations are automatically collapsed:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/image/scan-fixed-dark.webp">
+  <source media="(prefers-color-scheme: light)" srcset=".github/image/scan-fixed.webp">
+  <img alt="Fixed lint issues with collapsed annotations" src=".github/image/scan-fixed.webp">
+</picture>
+
+</details>
+
 ## Development
 
 ```bash
