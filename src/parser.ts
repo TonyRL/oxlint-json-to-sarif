@@ -4,12 +4,13 @@ import type { OxlintDiagnostic, OxlintLabel, OxlintReport, OxlintSeverity } from
  * Parses a raw label object into a typed OxlintLabel.
  */
 function parseLabel(l: Record<string, unknown>): OxlintLabel {
+  const span = (l.span ?? {}) as Record<string, unknown>;
   const parsedLabel: OxlintLabel = {
     span: {
-      offset: Number(l.span?.offset ?? 0),
-      length: Number(l.span?.length ?? 0),
-      line: Number(l.span?.line ?? 1),
-      column: Number(l.span?.column ?? 1),
+      offset: Number(span.offset ?? 0),
+      length: Number(span.length ?? 0),
+      line: Number(span.line ?? 1),
+      column: Number(span.column ?? 1),
     },
   };
   if (typeof l.label === 'string') {
