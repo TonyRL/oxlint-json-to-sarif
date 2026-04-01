@@ -83,6 +83,13 @@ export function parseOxlintJson(jsonContent: string): OxlintReport {
     throw new Error('Input JSON content is empty');
   }
 
+  if (trimmedContent.startsWith('Failed to parse oxlint configuration file')) {
+    throw new Error(
+      'The input does not appear to be oxlint JSON output. It looks like oxlint encountered a configuration error. ' +
+        'Please fix the oxlint configuration and re-run with `--format json`.',
+    );
+  }
+
   let parsed: unknown;
   try {
     parsed = JSON.parse(jsonContent);

@@ -68,8 +68,14 @@ describe('parseOxlintJson', () => {
             causes: [],
             filename: 'test.ts',
             labels: [
-              { label: 'Outer scope where this function is defined', span: { offset: 509, length: 7, line: 26, column: 16 } },
-              { label: 'This function does not use any variables from the parent function', span: { offset: 6342, length: 10, line: 179, column: 11 } },
+              {
+                label: 'Outer scope where this function is defined',
+                span: { offset: 509, length: 7, line: 26, column: 16 },
+              },
+              {
+                label: 'This function does not use any variables from the parent function',
+                span: { offset: 6342, length: 10, line: 179, column: 11 },
+              },
             ],
             related: [],
           },
@@ -379,6 +385,11 @@ describe('parseOxlintJson', () => {
 
     it('throws on non-object JSON', () => {
       expect(() => parseOxlintJson('"hello"')).toThrow('Invalid oxlint JSON');
+    });
+
+    it('throws on oxlint configuration error output', () => {
+      const configError = 'Failed to parse oxlint configuration file.';
+      expect(() => parseOxlintJson(configError)).toThrow('does not appear to be oxlint JSON output');
     });
   });
 
