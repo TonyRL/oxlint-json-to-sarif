@@ -5,7 +5,6 @@
     "moduleResolution": "bundler",
     "lib": ["ESNext"],
     "strict": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true,
     "declarationDir": "./dist",
