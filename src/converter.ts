@@ -31,7 +31,7 @@ function pathToUri(filePath: string): string {
     // Unix absolute path
     return `file://${normalized}`;
   }
-  // Relative path — leave as-is so SARIF consumers can resolve via uriBaseId
+  // Relative path, leave as-is so SARIF consumers can resolve via uriBaseId
   return normalized;
 }
 

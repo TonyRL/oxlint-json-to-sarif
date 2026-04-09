@@ -1,5 +1,10 @@
 # oxlint-json-to-sarif
 
+[![npm version](https://img.shields.io/npm/v/oxlint-json-to-sarif?style=flat-square)](https://www.npmjs.com/package/oxlint-json-to-sarif)
+[![npm downloads](https://img.shields.io/npm/dw/oxlint-json-to-sarif?style=flat-square)](https://www.npmjs.com/package/oxlint-json-to-sarif)
+[![CI](https://img.shields.io/github/actions/workflow/status/TonyRL/oxlint-json-to-sarif/ci.yml?style=flat-square)](https://github.com/TonyRL/oxlint-json-to-sarif/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 Convert oxlint JSON output to Static Analysis Results Interchange Format (SARIF) for [Github Code Scanning](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support-for-code-scanning).
 
 ## Usage
@@ -30,8 +35,8 @@ npx oxlint-json-to-sarif -i oxlint-output.json -o results.sarif
 
 ## CLI Options
 
-- --input <path>, -i <path>: path to the oxlint JSON input file
-- --output <path>, -o <path>: path to write SARIF output (defaults to stdout)
+- --input `<path>`, -i `<path>`: path to the oxlint JSON input file
+- --output `<path>`, -o `<path>`: path to write SARIF output (defaults to stdout)
 - --help: show help
 - --version: show version
 
@@ -61,7 +66,7 @@ However, these annotations only appear in the **Files changed** tab. Contributor
 
 ### Solution
 
-SARIF scan results, on the other hand, are shown directly on the **Conversation** tab — the default view when opening a pull request. This means contributors can see lint results immediately and fix them right away, without needing a reminder from maintainers.
+SARIF scan results, on the other hand, are shown directly on the **Conversation** tab, which is the default view when opening a pull request. This means contributors can see lint results immediately and fix them right away, without needing a reminder from maintainers.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/image/scan-dark.webp">
