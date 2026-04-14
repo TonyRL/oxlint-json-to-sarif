@@ -40,6 +40,37 @@ npx oxlint-json-to-sarif -i oxlint-output.json -o results.sarif
 - --help: show help
 - --version: show version
 
+## GitHub Actions Usage
+
+```yaml
+# Similar to https://github.com/actions/starter-workflows/blame/main/code-scanning/eslint.yml
+name: Oxlint
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  oxlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - name: Run oxlint
+        run: |
+          npx oxlint --format json | npx oxlint-json-to-sarif --output results.sarif
+        continue-on-error: true
+      - uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+          wait-for-processing: true
+```
+
 ## Node.js Usage
 
 ```ts
@@ -58,11 +89,11 @@ await writeFile('results.sarif', sarif, 'utf-8');
 
 ### Problem
 
-GitHub Actions can surface lint results as annotations in the **Files changed** tab of a pull request:
+While oxlint's [`github` output format](https://oxc.rs/docs/guide/usage/linter/output-formats.html#format-github) can surface lint results as annotations in the **Files changed** tab of a pull request:
 
 ![Annotations in the Files changed tab](https://user-images.githubusercontent.com/3151613/135507581-3ae633bd-f761-40a6-9c22-bdd9e5c50736.png)
 
-However, these annotations only appear in the **Files changed** tab. Contributors who are new to GitHub are often unfamiliar with this interface and may not notice the annotations until a project maintainer points them out, extending the review cycle of a pull request.
+These annotations only appear in the **Files changed** tab. Contributors who are new to GitHub are often unfamiliar with this interface and may not notice the annotations until a project maintainer points them out, extending the review cycle of a pull request.
 
 ### Solution
 
