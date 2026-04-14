@@ -65,7 +65,6 @@ function normalizeOxlintSeverity(severity: string): OxlintSeverity {
       return 'error';
     case 'warning':
     case 'warn':
-      return 'warning';
     default:
       return 'warning';
   }
@@ -106,19 +105,19 @@ export function parseOxlintJson(jsonContent: string): OxlintReport {
   const diagnostics: OxlintDiagnostic[] = parsed.diagnostics
     .filter((d): d is OxlintDiagnostic => isOxlintDiagnostic(d))
     .map((d) => ({
-      message: String(d.message ?? ''),
-      code: String(d.code ?? ''),
-      severity: normalizeOxlintSeverity(String(d.severity ?? 'warning')),
+      message: d.message ?? '',
+      code: d.code ?? '',
+      severity: normalizeOxlintSeverity(d.severity ?? 'warning'),
       causes: Array.isArray(d.causes) ? d.causes.map(String) : [],
-      url: d.url === undefined ? undefined : String(d.url),
-      help: d.help === undefined ? undefined : String(d.help),
-      filename: String(d.filename ?? ''),
+      url: d.url === undefined ? undefined : d.url,
+      help: d.help === undefined ? undefined : d.help,
+      filename: d.filename ?? '',
       labels: parseLabels(d.labels) ?? [],
       related: Array.isArray(d.related)
         ? d.related
             .filter((r): r is NonNullable<typeof r> => r !== null && r !== undefined && typeof r === 'object')
             .map((r) => ({
-              message: r.message === undefined ? undefined : String(r.message),
+              message: r.message === undefined ? undefined : r.message,
               labels: parseLabels(r.labels),
             }))
         : [],
@@ -126,10 +125,10 @@ export function parseOxlintJson(jsonContent: string): OxlintReport {
 
   return {
     diagnostics,
-    number_of_files: Number(parsed.number_of_files ?? 0),
+    number_of_files: parsed.number_of_files ?? 0,
     number_of_rules:
-      parsed.number_of_rules === null || parsed.number_of_rules === undefined ? null : Number(parsed.number_of_rules),
-    threads_count: Number(parsed.threads_count ?? 1),
-    start_time: Number(parsed.start_time ?? 0),
+      parsed.number_of_rules === null || parsed.number_of_rules === undefined ? null : parsed.number_of_rules,
+    threads_count: parsed.threads_count ?? 1,
+    start_time: parsed.start_time ?? 0,
   };
 }
