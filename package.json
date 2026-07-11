@@ -50,7 +50,7 @@
     "@types/node": "^26.0.0",
     "@types/sarif": "^2.1.7",
     "@vitest/coverage-v8": "^4.1.2",
-    "oxfmt": "^0.57.0",
+    "oxfmt": "^0.58.0",
     "oxlint": "^1.58.0",
     "oxlint-tsgolint": "^0.24.0",
     "tsdown": "^0.22.0",
