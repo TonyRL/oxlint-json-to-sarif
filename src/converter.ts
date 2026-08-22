@@ -94,11 +94,14 @@ export function convertToSarif(report: OxlintReport, toolVersion?: string): Log 
 
     // Register rule if not already seen
     if (!ruleIndexMap.has(ruleId)) {
-      const sarifRuleBuilder = new SarifRuleBuilder().initSimple({
+      const ruleInit: Parameters<SarifRuleBuilder['initSimple']>[0] = {
         ruleId,
         shortDescriptionText: ruleId,
-        ...(diagnostic.url ? { helpUri: diagnostic.url } : {}),
-      });
+      };
+      if (diagnostic.url) {
+        ruleInit.helpUri = diagnostic.url;
+      }
+      const sarifRuleBuilder = new SarifRuleBuilder().initSimple(ruleInit);
       if (diagnostic.help) {
         sarifRuleBuilder.rule.help = { text: diagnostic.help };
       }
@@ -126,9 +129,9 @@ export function convertToSarif(report: OxlintReport, toolVersion?: string): Log 
 
     // Map additional labels to relatedLocations
     if (diagnostic.labels.length > 1) {
-      const relatedLocations: Location[] = diagnostic.labels.slice(1).map((lbl, idx) =>
-        buildRelatedLocation(lbl, diagnostic.filename, idx + 1),
-      );
+      const relatedLocations: Location[] = diagnostic.labels
+        .slice(1)
+        .map((lbl, idx) => buildRelatedLocation(lbl, diagnostic.filename, idx + 1));
       sarifResultBuilder.result.relatedLocations = relatedLocations;
     }
 

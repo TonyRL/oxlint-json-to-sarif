@@ -35,8 +35,7 @@ async function runBuiltCli(
       [cliPath, ...args],
       { encoding: 'utf-8', timeout: 10000 },
       (err, stdout, stderr) => {
-        const exitCode =
-          err && typeof err === 'object' && 'code' in err && typeof err.code === 'number' ? err.code : err ? 1 : 0;
+        const exitCode = err === null ? 0 : Number.isInteger(err.code) ? Number(err.code) : 1;
         resolve({
           stdout: stdout ?? '',
           stderr: stderr ?? '',

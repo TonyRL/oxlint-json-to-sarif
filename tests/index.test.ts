@@ -19,7 +19,7 @@ describe('convertOxlintToSarif', () => {
     const json = loadFixture('multiple-diagnostics.json');
     const result = convertOxlintToSarif(json);
 
-    expect(typeof result).toBe('string');
+    expect(result).toBeTypeOf('string');
     expect(() => JSON.parse(result)).not.toThrow();
   });
 
@@ -67,8 +67,8 @@ describe('convertOxlintToSarif', () => {
   });
 
   it('exports are all accessible', () => {
-    expect(typeof convertOxlintToSarif).toBe('function');
-    expect(typeof parseOxlintJson).toBe('function');
-    expect(typeof convertToSarif).toBe('function');
+    expect(convertOxlintToSarif).toBeTypeOf('function');
+    expect(parseOxlintJson).toBeTypeOf('function');
+    expect(convertToSarif).toBeTypeOf('function');
   });
 });

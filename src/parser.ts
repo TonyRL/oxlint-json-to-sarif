@@ -1,19 +1,56 @@
 import type { OxlintDiagnostic, OxlintLabel, OxlintReport, OxlintSeverity } from './types/oxlint.js';
 
+interface RawSpan {
+  offset?: number | null;
+  length?: number | null;
+  line?: number | null;
+  column?: number | null;
+}
+
+interface RawLabel {
+  label?: string | null;
+  span?: RawSpan | null;
+}
+
+interface RawRelated {
+  message?: string | null;
+  labels?: (RawLabel | null)[] | null;
+}
+
+interface RawDiagnostic {
+  message?: string | null;
+  code?: string | null;
+  severity?: string | null;
+  causes?: string[] | null;
+  url?: string | null;
+  help?: string | null;
+  filename?: string | null;
+  labels?: (RawLabel | null)[] | null;
+  related?: (RawRelated | null)[] | null;
+}
+
+interface RawReport {
+  diagnostics: (RawDiagnostic | null)[];
+  number_of_files?: number | null;
+  number_of_rules?: number | null;
+  threads_count?: number | null;
+  start_time?: number | null;
+}
+
 /**
  * Parses a raw label object into a typed OxlintLabel.
  */
-function parseLabel(l: Record<string, unknown>): OxlintLabel {
-  const span = (l.span ?? {}) as Record<string, unknown>;
+function parseLabel(l: RawLabel): OxlintLabel {
+  const span = l.span ?? {};
   const parsedLabel: OxlintLabel = {
     span: {
-      offset: Number(span.offset ?? 0),
-      length: Number(span.length ?? 0),
-      line: Number(span.line ?? 1),
-      column: Number(span.column ?? 1),
+      offset: span.offset ?? 0,
+      length: span.length ?? 0,
+      line: span.line ?? 1,
+      column: span.column ?? 1,
     },
   };
-  if (typeof l.label === 'string') {
+  if (l.label !== null && l.label !== undefined) {
     parsedLabel.label = l.label;
   }
   return parsedLabel;
@@ -22,38 +59,11 @@ function parseLabel(l: Record<string, unknown>): OxlintLabel {
 /**
  * Filters and parses a raw labels array into typed OxlintLabel[].
  */
-function parseLabels(raw: unknown): OxlintLabel[] | undefined {
-  if (!Array.isArray(raw)) {
+function parseLabels(labels: (RawLabel | null)[] | null | undefined): OxlintLabel[] | undefined {
+  if (!Array.isArray(labels)) {
     return undefined;
   }
-  return raw
-    .filter((l): l is Record<string, unknown> => l !== null && l !== undefined && typeof l === 'object')
-    .map(parseLabel);
-}
-
-/**
- * Type guard to check if parsed JSON is a valid OxlintReport structure
- */
-function isOxlintReport(value: unknown): value is OxlintReport {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-  const diagnostics = Reflect.get(value, 'diagnostics');
-  return Array.isArray(diagnostics);
-}
-
-/**
- * Type guard to check if a value is a valid OxlintDiagnostic
- */
-function isOxlintDiagnostic(value: unknown): value is OxlintDiagnostic {
-  return Boolean(
-    value &&
-    typeof value === 'object' &&
-    'message' in value &&
-    'code' in value &&
-    'severity' in value &&
-    'filename' in value,
-  );
+  return labels.filter((l) => l !== null && l !== undefined).map(parseLabel);
 }
 
 /**
@@ -90,34 +100,35 @@ export function parseOxlintJson(jsonContent: string): OxlintReport {
     );
   }
 
-  let parsed: unknown;
+  let parsedJson: unknown;
   try {
-    parsed = JSON.parse(jsonContent);
+    parsedJson = JSON.parse(jsonContent);
   } catch (err) {
     const message = String(err);
     throw new Error(`Failed to parse JSON: ${message}`, { cause: err });
   }
 
-  if (!isOxlintReport(parsed)) {
+  if (!(parsedJson instanceof Object) || !('diagnostics' in parsedJson) || !Array.isArray(parsedJson.diagnostics)) {
     throw new Error('Invalid oxlint JSON: missing "diagnostics" array');
   }
+  const parsed = parsedJson as RawReport;
 
   const diagnostics: OxlintDiagnostic[] = parsed.diagnostics
-    .filter((d): d is OxlintDiagnostic => isOxlintDiagnostic(d))
+    .filter((d) => d !== null && d !== undefined)
     .map((d) => ({
       message: d.message ?? '',
       code: d.code ?? '',
       severity: normalizeOxlintSeverity(d.severity ?? 'warning'),
       causes: Array.isArray(d.causes) ? d.causes.map(String) : [],
-      url: d.url === undefined ? undefined : d.url,
-      help: d.help === undefined ? undefined : d.help,
+      url: d.url ?? undefined,
+      help: d.help ?? undefined,
       filename: d.filename ?? '',
       labels: parseLabels(d.labels) ?? [],
       related: Array.isArray(d.related)
         ? d.related
-            .filter((r): r is NonNullable<typeof r> => r !== null && r !== undefined && typeof r === 'object')
+            .filter((r) => r !== null && r !== undefined)
             .map((r) => ({
-              message: r.message === undefined ? undefined : r.message,
+              message: r.message ?? undefined,
               labels: parseLabels(r.labels),
             }))
         : [],
