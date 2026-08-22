@@ -81,7 +81,7 @@ describe('SARIF v2.1.0 compliance', () => {
     it('tool.driver has required "name" property (§3.19.8)', () => {
       const sarif = parseSarif(loadFixture('multiple-diagnostics.json'));
       for (const run of sarif.runs) {
-        expect(typeof run.tool.driver.name).toBe('string');
+        expect(run.tool.driver.name).toBeTypeOf('string');
         expect(run.tool.driver.name.length).toBeGreaterThan(0);
       }
     });
@@ -90,7 +90,7 @@ describe('SARIF v2.1.0 compliance', () => {
       const sarif = parseSarif(loadFixture('multiple-diagnostics.json'));
       for (const run of sarif.runs) {
         if (run.tool.driver.version !== undefined) {
-          expect(typeof run.tool.driver.version).toBe('string');
+          expect(run.tool.driver.version).toBeTypeOf('string');
         }
       }
     });
@@ -108,7 +108,7 @@ describe('SARIF v2.1.0 compliance', () => {
       const sarif = parseSarif(loadFixture('multiple-diagnostics.json'));
       for (const run of sarif.runs) {
         for (const rule of run.tool.driver.rules ?? []) {
-          expect(typeof rule.id).toBe('string');
+          expect(rule.id).toBeTypeOf('string');
           expect(rule.id.length).toBeGreaterThan(0);
         }
       }
@@ -148,7 +148,7 @@ describe('SARIF v2.1.0 compliance', () => {
       for (const run of sarif.runs) {
         for (const result of run.results) {
           if (result.ruleId !== undefined) {
-            expect(typeof result.ruleId).toBe('string');
+            expect(result.ruleId).toBeTypeOf('string');
           }
         }
       }
@@ -185,7 +185,7 @@ describe('SARIF v2.1.0 compliance', () => {
         for (const result of run.results) {
           for (const loc of result.locations ?? []) {
             if (loc.physicalLocation !== undefined) {
-              expect(typeof loc.physicalLocation).toBe('object');
+              expect(loc.physicalLocation).toBeTypeOf('object');
             }
           }
         }
@@ -199,7 +199,7 @@ describe('SARIF v2.1.0 compliance', () => {
           for (const loc of result.locations ?? []) {
             const artLoc = loc.physicalLocation?.artifactLocation;
             if (artLoc?.uri !== undefined) {
-              expect(typeof artLoc.uri).toBe('string');
+              expect(artLoc.uri).toBeTypeOf('string');
             }
           }
         }

@@ -3,15 +3,28 @@ updates:
   - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
     labels:
       - dependencies
     target-branch: dev
+    groups:
+      oxc:
+        patterns:
+          - oxfmt
+          - oxlint
+      vitest:
+        patterns:
+          - '@vitest/*'
+          - vitest
 
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
     labels:
       - dependencies
     target-branch: dev
+    groups:
+      github-actions:
+        patterns:
+          - '*'
