@@ -7,6 +7,15 @@ updates:
     labels:
       - dependencies
     target-branch: dev
+    groups:
+      oxc:
+        patterns:
+          - oxfmt
+          - oxlint
+      vitest:
+        patterns:
+          - '@vitest/*'
+          - vitest
 
   - package-ecosystem: 'github-actions'
     directory: '/'
@@ -15,3 +24,7 @@ updates:
     labels:
       - dependencies
     target-branch: dev
+    groups:
+      github-actions:
+        patterns:
+          - '*'
